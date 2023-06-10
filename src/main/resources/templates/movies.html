@@ -26,10 +26,10 @@
 
 <div class="movies-container">
         <span class="filter-box" th:if="${filter != null}">
-            <a th:href="@{/popular}">Popular</a>
-            <a th:href="@{/now_playing}">Now Playing</a>
-            <a th:href="@{/top_rated}">Top Rated</a>
-            <a th:href="@{/upcoming}">Upcoming</a>
+            <a th:href="@{/movies/popular}">Popular</a>
+            <a th:href="@{/movies/now_playing}">Now Playing</a>
+            <a th:href="@{/movies/top_rated}">Top Rated</a>
+            <a th:href="@{/movies/upcoming}">Upcoming</a>
         </span>
     <h2 class="total-results" th:unless="${filter != null}">
         <span th:if="${movies.movies.size() == 1}">There is</span>
@@ -63,14 +63,18 @@
             -->
 
             <!-- shows previous movies.currentPage -->
-            <a th:if="${movies.currentPage > 1}" th:href="|/${filter + '/' + (movies.currentPage - 1)}|"> &lt; </a>
+            <a th:if="${movies.currentPage > 1}" th:href="${'/movies/' + filter + '/' + (movies.currentPage - 1)}"> &lt; </a>
 
             <!-- shows movies.currentPage numbers -->
-            <!--<a th:each="i : ${#numbers.sequence(minPage, maxPage)}" th:href="|/${base + i}|"
-               th:class="${i == movies.currentPage} ? 'current-movies.currentPage' : ''" th:text="${i}"></a>-->
+            <a th:each="i : ${#numbers.sequence(movies.currentPage - 2, movies.currentPage + 2)}"
+               th:if="${i > 0 && i <= movies.totalPages}"
+               th:href="${'/movies/' + filter + '/' + i}"
+               th:class="${i == movies.currentPage} ? 'current-movies.currentPage' : ''">
+               <span th:text="${i}"></span>
+            </a>
 
             <!-- shows next movies.currentPage -->
-            <a th:if="${movies.currentPage < movies.totalPages}" th:href="|/${filter + '/' + (movies.currentPage + 1)}|"> &gt; </a>
+            <a th:if="${movies.currentPage < movies.totalPages}" th:href="${'/movies/' + filter + '/' + (movies.currentPage + 1)}"> &gt; </a>
         </div>
     </div>
 </div>
