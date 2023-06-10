@@ -17,11 +17,12 @@ public class MovieController {
 
     private final MovieRepository movieRepository;
 
-    @GetMapping({"/", "{filter}", "{filter}/{page}"})
+    @GetMapping({"/", "movies/{filter}", "movies/{filter}/{page}"})
     public String showAllMovies(
-            @PathVariable(required = false) String filter,
-            @PathVariable(required = false) Integer page,
-            Model model) {
+        @PathVariable(required = false) String filter,
+        @PathVariable(required = false) Integer page,
+        Model model
+    ) {
         MoviesCollection movies;
 
         if (filter == null) {
