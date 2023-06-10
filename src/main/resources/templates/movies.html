@@ -25,12 +25,13 @@
 <div th:replace="~{navbar :: navbar}"></div>
 
 <div class="movies-container">
-        <span class="filter-box" th:if="${filter != null}">
-            <a th:href="@{/movies/popular}">Popular</a>
-            <a th:href="@{/movies/now_playing}">Now Playing</a>
-            <a th:href="@{/movies/top_rated}">Top Rated</a>
-            <a th:href="@{/movies/upcoming}">Upcoming</a>
-        </span>
+    <span class="filter-box" th:if="${filter != null}">
+        <a th:href="@{/movies/popular}">Popular</a>
+        <a th:href="@{/movies/now_playing}">Now Playing</a>
+        <a th:href="@{/movies/top_rated}">Top Rated</a>
+        <a th:href="@{/movies/upcoming}">Upcoming</a>
+    </span>
+
     <h2 class="total-results" th:unless="${filter != null}">
         <span th:if="${movies.movies.size() == 1}">There is</span>
         <span th:if="${movies.movies.size() != 1}">There are</span>
