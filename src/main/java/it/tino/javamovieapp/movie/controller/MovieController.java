@@ -39,4 +39,22 @@ public class MovieController {
 
         return "movies";
     }
+
+    @GetMapping({"movies/search/{query}", "movies/search/{query}/{page}"})
+    public String search(
+        @PathVariable String query,
+        @PathVariable(required = false) Integer page,
+        Model model
+    ) {
+        MoviesCollection movies;
+        if (page == null) {
+            movies = movieRepository.search(query);
+        } else {
+            movies = movieRepository.search(query, page);
+        }
+
+        model.addAttribute("movies", movies);
+
+        return "movies";
+    }
 }

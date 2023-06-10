@@ -16,4 +16,10 @@ public interface MovieRepository {
     default MoviesCollection findAll() {
         return findAll(MovieSorting.DEFAULT, 1);
     }
+
+    MoviesCollection search(String query, int page);
+
+    default MoviesCollection search(String query) {
+        return search(query, 1);
+    }
 }

@@ -30,17 +30,31 @@ public class MovieDataSource implements MovieRepository {
     public MoviesCollection findAll(MovieSorting sorting, int page) {
         try {
             URL url = new URL(BASE_URL + "movie/" + sorting.getKey() + "?page=" + page);
-            HttpURLConnection connection = (HttpURLConnection) connectionProvider.getConnection(url);
-            connection.addRequestProperty("Authorization", "Bearer " + apiKey);
-
-            String responseBody = connectionProvider.getResponseBody(connection);
-
-            ObjectMapper objectMapper = new ObjectMapper()
-                    .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-
-            return objectMapper.readValue(responseBody, MoviesCollection.class);
+            return getMoviesCollection(url);
         } catch (IOException e) {
             return new MoviesCollection();
         }
+    }
+
+    @Override
+    public MoviesCollection search(String query, int page) {
+        try {
+            URL url = new URL(BASE_URL + "search/movie?query=" + query + "&page=" + page);
+            return getMoviesCollection(url);
+        } catch (IOException e) {
+            return new MoviesCollection();
+        }
+    }
+
+    private MoviesCollection getMoviesCollection(URL url) throws IOException {
+        HttpURLConnection connection = (HttpURLConnection) connectionProvider.getConnection(url);
+        connection.addRequestProperty("Authorization", "Bearer " + apiKey);
+
+        String responseBody = connectionProvider.getResponseBody(connection);
+
+        ObjectMapper objectMapper = new ObjectMapper()
+                .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+
+        return objectMapper.readValue(responseBody, MoviesCollection.class);
     }
 }
