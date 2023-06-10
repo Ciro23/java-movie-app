@@ -53,7 +53,22 @@ public class MovieDataSourceTest {
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
         MoviesCollection expected = objectMapper.readValue(responseInJson, MoviesCollection.class);
+        MoviesCollection actual = movieDataSource.findAll();
 
+        Assertions.assertEquals(expected, actual);
+    }
+
+    @Test
+    void find_all_error() throws IOException {
+        Mockito
+                .when(connectionProvider.getConnection(Mockito.any()))
+                .thenReturn(httpURLConnection);
+
+        Mockito
+                .when(connectionProvider.getConnection(Mockito.any()))
+                .thenThrow(IOException.class);
+
+        MoviesCollection expected = new MoviesCollection();
         MoviesCollection actual = movieDataSource.findAll();
 
         Assertions.assertEquals(expected, actual);
