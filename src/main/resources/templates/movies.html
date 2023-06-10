@@ -69,7 +69,7 @@
             <a th:each="i : ${#numbers.sequence(movies.currentPage - 2, movies.currentPage + 2)}"
                th:if="${i > 0 && i <= movies.totalPages}"
                th:href="${'/movies/' + filter + '/' + i}"
-               th:class="${i == movies.currentPage} ? 'current-movies.currentPage' : ''">
+               th:class="${i == movies.currentPage} ? 'current-page' : ''">
                <span th:text="${i}"></span>
             </a>
 
