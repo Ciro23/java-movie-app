@@ -17,15 +17,20 @@ public class MovieController {
 
     private final MovieRepository movieRepository;
 
-    @GetMapping({"/", "{filter}"})
-    public String showAllMovies(@PathVariable(required = false) String filter, Model model) {
+    @GetMapping({"/", "{filter}", "{filter}/{page}"})
+    public String showAllMovies(
+            @PathVariable(required = false) String filter,
+            @PathVariable(required = false) Integer page,
+            Model model) {
         MoviesCollection movies;
 
         if (filter == null) {
             filter = MovieSorting.DEFAULT.getKey();
             movies = movieRepository.findAll();
-        } else {
+        } else if (page == null) {
             movies = movieRepository.findAll(MovieSorting.fromKey(filter));
+        } else {
+            movies = movieRepository.findAll(MovieSorting.fromKey(filter), page);
         }
 
         model.addAttribute("movies", movies);

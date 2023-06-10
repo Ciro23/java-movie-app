@@ -27,9 +27,9 @@ public class MovieDataSource implements MovieRepository {
     }
 
     @Override
-    public MoviesCollection findAll(MovieSorting sorting) {
+    public MoviesCollection findAll(MovieSorting sorting, int page) {
         try {
-            URL url = new URL(BASE_URL + "movie/" + sorting.getKey());
+            URL url = new URL(BASE_URL + "movie/" + sorting.getKey() + "?page=" + page);
             System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) connectionProvider.getConnection(url);
             connection.addRequestProperty("Authorization", "Bearer " + apiKey);

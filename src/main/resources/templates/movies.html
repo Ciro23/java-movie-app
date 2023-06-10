@@ -63,14 +63,14 @@
             -->
 
             <!-- shows previous movies.currentPage -->
-            <!--<a th:if="${movies.currentPage > 1}" th:href="|/${base + (movies.currentPage - 1)}|"> &lt; </a>-->
+            <a th:if="${movies.currentPage > 1}" th:href="|/${filter + '/' + (movies.currentPage - 1)}|"> &lt; </a>
 
             <!-- shows movies.currentPage numbers -->
             <!--<a th:each="i : ${#numbers.sequence(minPage, maxPage)}" th:href="|/${base + i}|"
                th:class="${i == movies.currentPage} ? 'current-movies.currentPage' : ''" th:text="${i}"></a>-->
 
             <!-- shows next movies.currentPage -->
-            <!--<a th:if="${movies.currentPage < movies.totalPages}" th:href="|/${base + (movies.currentPage + 1)}|"> &gt; </a>-->
+            <a th:if="${movies.currentPage < movies.totalPages}" th:href="|/${filter + '/' + (movies.currentPage + 1)}|"> &gt; </a>
         </div>
     </div>
 </div>
