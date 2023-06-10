@@ -25,13 +25,13 @@
 <div th:replace="~{navbar :: navbar}"></div>
 
 <div class="movies-container">
-        <span class="filter-box" th:if="${movie_filter != null}">
+        <span class="filter-box" th:if="${filter != null}">
             <a th:href="@{/popular}">Popular</a>
             <a th:href="@{/now_playing}">Now Playing</a>
             <a th:href="@{/top_rated}">Top Rated</a>
             <a th:href="@{/upcoming}">Upcoming</a>
         </span>
-    <h2 class="total-results" th:unless="${movie_filter != null}">
+    <h2 class="total-results" th:unless="${filter != null}">
         <span th:if="${movies.movies.size() == 1}">There is</span>
         <span th:if="${movies.movies.size() != 1}">There are</span>
         <span th:text="${movies.movies.size()}"></span>
@@ -54,10 +54,10 @@
         <div class="filter-box">
             <!-- determines the base root of the url -->
             <!--
-            <th:block th:if="${movie_filter != null}">
-                <th:with th:assign="base" th:value="${movie_filter + '/'}"></th:with>
+            <th:block th:if="${filter != null}">
+                <th:with th:assign="base" th:value="${filter + '/'}"></th:with>
             </th:block>
-            <th:block th:unless="${movie_filter != null}">
+            <th:block th:unless="${filter != null}">
                 <th:with th:assign="base" th:value="'search/' + ${query} + '/'}"></th:with>
             </th:block>
             -->

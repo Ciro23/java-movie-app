@@ -2,6 +2,7 @@ package it.tino.javamovieapp.movie.repository;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.tino.javamovieapp.movie.model.MovieSorting;
 import it.tino.javamovieapp.movie.model.MoviesCollection;
 import it.tino.javamovieapp.network.ConnectionProvider;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,9 +27,10 @@ public class MovieDataSource implements MovieRepository {
     }
 
     @Override
-    public MoviesCollection findAll() {
+    public MoviesCollection findAll(MovieSorting sorting) {
         try {
-            URL url = new URL(BASE_URL + "discover/movie");
+            URL url = new URL(BASE_URL + "movie/" + sorting.getKey());
+            System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) connectionProvider.getConnection(url);
             connection.addRequestProperty("Authorization", "Bearer " + apiKey);
 
@@ -39,6 +41,7 @@ public class MovieDataSource implements MovieRepository {
 
             return objectMapper.readValue(responseBody, MoviesCollection.class);
         } catch (IOException e) {
+            System.out.println(e);
             return new MoviesCollection();
         }
     }
