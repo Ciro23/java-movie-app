@@ -30,7 +30,6 @@ public class MovieDataSource implements MovieRepository {
     public MoviesCollection findAll(MovieSorting sorting, int page) {
         try {
             URL url = new URL(BASE_URL + "movie/" + sorting.getKey() + "?page=" + page);
-            System.out.println(url);
             HttpURLConnection connection = (HttpURLConnection) connectionProvider.getConnection(url);
             connection.addRequestProperty("Authorization", "Bearer " + apiKey);
 
@@ -41,7 +40,6 @@ public class MovieDataSource implements MovieRepository {
 
             return objectMapper.readValue(responseBody, MoviesCollection.class);
         } catch (IOException e) {
-            System.out.println(e);
             return new MoviesCollection();
         }
     }
