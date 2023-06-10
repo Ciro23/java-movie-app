@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home - Movie App</title>
+
+    <th:block th:insert="~{common :: common}"></th:block>
+
+    <!-- styles and other files -->
+    <link rel="stylesheet" th:href="@{/css/movies.css}">
+    <script>
+        $(document).ready(function() {
+            // animates the movie card when hovering
+            $(".movie").hover(function() {
+                $(this).animate({top: "-20"}, 150);
+            }, function() {
+                $(this).animate({top: "0"}, 150);
+            });
+        });
+    </script>
+</head>
+
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="movies-container">
+        <span class="filter-box" th:if="${movie_filter != null}">
+            <a th:href="@{/popular}">Popular</a>
+            <a th:href="@{/now_playing}">Now Playing</a>
+            <a th:href="@{/top_rated}">Top Rated</a>
+            <a th:href="@{/upcoming}">Upcoming</a>
+        </span>
+    <h2 class="total-results" th:unless="${movie_filter != null}">
+        <span th:if="${movies.movies.size() == 1}">There is</span>
+        <span th:if="${movies.movies.size() != 1}">There are</span>
+        <span th:text="${movies.movies.size()}"></span>
+        <span th:if="${movies.movies.size() == 1}">result for</span>
+        <span th:if="${movies.movies.size() != 1}">results for</span>
+        <span th:text="'&quot;' + ${query} + '&quot;'" th:remove="tag"></span>
+    </h2>
+
+    <div class="movie-grid">
+        <a th:each="movie : ${movies.movies}" th:href="@{/movie/{id}(id=${movie.id})}" class="movie">
+            <div>
+                <img th:src="${'https://image.tmdb.org/t/p/w200' + movie.posterPath}" alt="Movie Poster">
+                <p class="title" th:text="${movie.title}"></p>
+                <span class="vote" th:text="${movie.voteAverage}"></span>
+            </div>
+        </a>
+    </div>
+
+    <div class="page-filter">
+        <div class="filter-box">
+            <!-- determines the base root of the url -->
+            <!--
+            <th:block th:if="${movie_filter != null}">
+                <th:with th:assign="base" th:value="${movie_filter + '/'}"></th:with>
+            </th:block>
+            <th:block th:unless="${movie_filter != null}">
+                <th:with th:assign="base" th:value="'search/' + ${query} + '/'}"></th:with>
+            </th:block>
+            -->
+
+            <!-- shows previous movies.currentPage -->
+            <!--<a th:if="${movies.currentPage > 1}" th:href="|/${base + (movies.currentPage - 1)}|"> &lt; </a>-->
+
+            <!-- shows movies.currentPage numbers -->
+            <!--<a th:each="i : ${#numbers.sequence(minPage, maxPage)}" th:href="|/${base + i}|"
+               th:class="${i == movies.currentPage} ? 'current-movies.currentPage' : ''" th:text="${i}"></a>-->
+
+            <!-- shows next movies.currentPage -->
+            <!--<a th:if="${movies.currentPage < movies.totalPages}" th:href="|/${base + (movies.currentPage + 1)}|"> &gt; </a>-->
+        </div>
+    </div>
+</div>
+
+<div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

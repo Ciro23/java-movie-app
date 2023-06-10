@@ -1,5 +1,6 @@
 package it.tino.javamovieapp.movie.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 @Getter
@@ -9,10 +10,20 @@ import lombok.*;
 @AllArgsConstructor
 public class Movie {
 
+    @JsonProperty("id")
     private int id;
+
+    @JsonProperty("title")
     private String title;
+
+    @JsonProperty("vote_average")
     private float voteAverage;
+
+    @JsonProperty("release_date")
     private String releaseDate;
+
+    @JsonProperty("poster_path")
+    private String posterPath;
 
     @Override
     public boolean equals(Object o) {

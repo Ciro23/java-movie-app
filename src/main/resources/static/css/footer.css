@@ -1,0 +1,25 @@
+@media only screen and (max-width: 599px) {
+    html {
+        font-size: 2vw;
+    }
+}
+
+.footer {
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    margin-top: 4rem;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: distribute;
+    justify-content: space-around;
+}
+
+.footer a {
+    padding: 0.5rem;
+}
+
+.footer img {
+    width: 1.9rem;
+}
