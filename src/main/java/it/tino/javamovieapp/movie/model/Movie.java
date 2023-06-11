@@ -3,6 +3,9 @@ package it.tino.javamovieapp.movie.model;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
+import java.util.Locale;
+import java.util.Set;
+
 @Getter
 @Setter
 @ToString
@@ -24,6 +27,41 @@ public class Movie {
 
     @JsonProperty("poster_path")
     private String posterPath;
+
+    @JsonProperty("overview")
+    private String overview;
+
+    @JsonProperty("genres")
+    private Set<Genre> genres;
+
+    @JsonProperty("budget")
+    private int budget;
+
+    @JsonProperty("runtime")
+    private int runtime;
+
+    /**
+     * Budget may contain many numbers, so dots should
+     * for decimal separators.
+     * @param locale The decimal separator differs based on the
+     *               locale. E.g. for {@link Locale#US} it's ",",
+     *               but for {@link Locale#ITALY} it's "."
+     * @return The budget with decimal separators, as "1.000.000"
+     */
+    public String getFormattedBudget(Locale locale) {
+        return String.format(locale, "%,d", budget);
+    }
+
+    public String getFormattedBudget() {
+        return getFormattedBudget(Locale.US);
+    }
+    
+    public String getFormattedRuntime() {
+        int hours = (int) Math.floor((double)runtime / 60);
+        int minutes = runtime - hours * 60;
+
+        return hours + "h " + minutes + "m";
+    }
 
     @Override
     public boolean equals(Object o) {

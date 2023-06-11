@@ -1,5 +1,6 @@
 package it.tino.javamovieapp.movie.controller;
 
+import it.tino.javamovieapp.movie.model.Movie;
 import it.tino.javamovieapp.movie.model.MovieSorting;
 import it.tino.javamovieapp.movie.model.MoviesCollection;
 import it.tino.javamovieapp.movie.repository.MovieRepository;
@@ -56,5 +57,14 @@ public class MovieController {
         model.addAttribute("movies", movies);
 
         return "movies";
+    }
+
+    @GetMapping("movie/{id}")
+    public String showDetails(@PathVariable Integer id, Model model) {
+        Movie movie = movieRepository.getMovieDetails(id).get();
+
+        model.addAttribute("movie", movie);
+
+        return "movie";
     }
 }

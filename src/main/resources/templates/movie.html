@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"
+      dir="ltr"
+      th:style="'background-image: url(' + ${'https://image.tmdb.org/t/p/original' + movie.posterPath} + ')'"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title th:text="${movie.title + ' - Movie App'}"></title>
+
+  <th:block th:insert="~{common :: common}"></th:block>
+
+  <!-- styles and other files -->
+  <link rel="stylesheet" th:href="@{/css/movie.css}">
+  <script th:src="@{/assets/js/jquery.min.js}"></script>
+</head>
+
+<body>
+<!-- Include the nav-bar fragment -->
+  <div th:replace="~{navbar :: navbar}"></div>
+
+  <div class="movie-container">
+    <div class="movie-details">
+
+      <img th:src="${'https://image.tmdb.org/t/p/w300' + movie.posterPath}">
+
+      <div class="movie-overview">
+        <h1 th:text="${movie.title}"></h1>
+        <span class="vote" th:text="${movie.voteAverage}"></span>
+
+        <!--
+        <form th:action="(${#httpServletRequest.requestURI} + '/remove-from-watchlist')" class="watchlist-button" method="post" th:if="${data.isMovieInWatchlist}">
+          <button type="submit">
+            <img src="/public/assets/icons/bookmark_full.icon.png">
+            <span th:text="Remove from watchlist"></span>
+          </button>
+        </form>
+
+        <form th:action="(${#httpServletRequest.requestURI} + '/add-to-watchlist')" class="watchlist-button" method="post" th:unless="${data.isMovieInWatchlist}">
+          <button type="submit">
+            <img src="/public/assets/icons/bookmark_empty.icon.png">
+            <span th:text="${lang['add_to_watchlist']}"></span>
+          </button>
+        </form>
+        -->
+
+        <p class="overview" th:text="${movie.overview}"></p>
+        <!--<p class="director" th:text="'Director: ' + ${movie.crew.director}"></p>-->
+
+        <div class="genres">
+          <p>Genres:</p>
+          <p th:each="genre : ${movie.genres}" th:text="${genre.name}"></p>
+        </div>
+      </div>
+    </div>
+    <div class="movie-info">
+      <p th:text="'Release date: ' + ${movie.releaseDate}"></p>
+      <p th:text="'Runtime: ' + ${movie.formattedRuntime}"></p>
+      <p th:text="'Budget: $' + ${movie.formattedBudget}"></p>
+    </div>
+    <!--
+    <div class="cast">
+      <h2 th:text="${lang['actors']}"></h2>
+      <span class="cast-grid" th:replace="fragments/cast :: cast-grid"></span>
+      <button class="show-all-cast-btn" th:text="${lang['show_all']}"></button>
+    </div>
+    -->
+  </div>
+
+  <!-- Include the footer fragment -->
+  <div th:replace="~{footer :: footer}"></div>
+</body>
+</html>
