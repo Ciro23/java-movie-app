@@ -1,8 +1,11 @@
 package it.tino.javamovieapp.movie.repository;
 
+import it.tino.javamovieapp.movie.model.Movie;
 import it.tino.javamovieapp.movie.model.MovieSorting;
 import it.tino.javamovieapp.movie.model.MoviesCollection;
 import org.springframework.stereotype.Repository;
+
+import java.util.Optional;
 
 @Repository
 public interface MovieRepository {
@@ -22,4 +25,6 @@ public interface MovieRepository {
     default MoviesCollection search(String query) {
         return search(query, 1);
     }
+
+    Optional<Movie> getMovieDetails(int id);
 }

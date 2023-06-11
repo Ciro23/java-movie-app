@@ -2,6 +2,7 @@ package it.tino.javamovieapp.movie.repository;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import it.tino.javamovieapp.movie.model.Movie;
 import it.tino.javamovieapp.movie.model.MovieSorting;
 import it.tino.javamovieapp.movie.model.MoviesCollection;
 import it.tino.javamovieapp.network.ConnectionProvider;
@@ -11,6 +12,7 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Optional;
 
 @Component
 public class MovieDataSource implements MovieRepository {
@@ -30,7 +32,7 @@ public class MovieDataSource implements MovieRepository {
     public MoviesCollection findAll(MovieSorting sorting, int page) {
         try {
             URL url = new URL(BASE_URL + "movie/" + sorting.getKey() + "?page=" + page);
-            return getMoviesCollection(url);
+            return makeHttpCall(url, MoviesCollection.class);
         } catch (IOException e) {
             return new MoviesCollection();
         }
@@ -40,13 +42,23 @@ public class MovieDataSource implements MovieRepository {
     public MoviesCollection search(String query, int page) {
         try {
             URL url = new URL(BASE_URL + "search/movie?query=" + query + "&page=" + page);
-            return getMoviesCollection(url);
+            return makeHttpCall(url, MoviesCollection.class);
         } catch (IOException e) {
             return new MoviesCollection();
         }
     }
 
-    private MoviesCollection getMoviesCollection(URL url) throws IOException {
+    @Override
+    public Optional<Movie> getMovieDetails(int id) {
+        try {
+            URL url = new URL(BASE_URL + "movie/" + id);
+            return Optional.ofNullable(makeHttpCall(url, Movie.class));
+        } catch (IOException e) {
+            return Optional.empty();
+        }
+    }
+
+    private <T> T makeHttpCall(URL url, Class<T> returnType) throws IOException {
         HttpURLConnection connection = (HttpURLConnection) connectionProvider.getConnection(url);
         connection.addRequestProperty("Authorization", "Bearer " + apiKey);
 
@@ -55,6 +67,6 @@ public class MovieDataSource implements MovieRepository {
         ObjectMapper objectMapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        return objectMapper.readValue(responseBody, MoviesCollection.class);
+        return objectMapper.readValue(responseBody, returnType);
     }
 }
