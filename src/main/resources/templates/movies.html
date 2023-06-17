@@ -54,30 +54,21 @@
     </div>
 
     <div class="page-filter">
-        <div class="filter-box">
-            <!-- determines the base root of the url -->
-            <!--
-            <th:block th:if="${filter != null}">
-                <th:with th:assign="base" th:value="${filter + '/'}"></th:with>
-            </th:block>
-            <th:block th:unless="${filter != null}">
-                <th:with th:assign="base" th:value="'search/' + ${query} + '/'}"></th:with>
-            </th:block>
-            -->
+        <div class="filter-box" th:with="baseUrl=${filter == null ? '/movies/search/' + query : '/movies/' + filter}">
 
             <!-- shows previous movies.currentPage -->
-            <a th:if="${movies.currentPage > 1}" th:href="${'/movies/' + filter + '/' + (movies.currentPage - 1)}"> &lt; </a>
+            <a th:if="${movies.currentPage > 1}" th:href="${baseUrl + '/' + (movies.currentPage - 1)}"> &lt; </a>
 
             <!-- shows movies.currentPage numbers -->
             <a th:each="i : ${#numbers.sequence(movies.currentPage - 2, movies.currentPage + 2)}"
                th:if="${i > 0 && i <= movies.totalPages}"
-               th:href="${'/movies/' + filter + '/' + i}"
+               th:href="${baseUrl + '/' + i}"
                th:class="${i == movies.currentPage} ? 'current-page' : ''">
                <span th:text="${i}"></span>
             </a>
 
             <!-- shows next movies.currentPage -->
-            <a th:if="${movies.currentPage < movies.totalPages}" th:href="${'/movies/' + filter + '/' + (movies.currentPage + 1)}"> &gt; </a>
+            <a th:if="${movies.currentPage < movies.totalPages}" th:href="${baseUrl + '/' + (movies.currentPage + 1)}"> &gt; </a>
         </div>
     </div>
 </div>
