@@ -180,7 +180,7 @@ html {
     padding: 2rem 0 2rem 4.5rem;
 }
 
-.cast span {
+.cast-grid {
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

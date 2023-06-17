@@ -58,13 +58,20 @@
       <p th:text="'Runtime: ' + ${movie.formattedRuntime}"></p>
       <p th:text="'Budget: $' + ${movie.formattedBudget}"></p>
     </div>
-    <!--
+
     <div class="cast">
-      <h2 th:text="${lang['actors']}"></h2>
-      <span class="cast-grid" th:replace="fragments/cast :: cast-grid"></span>
-      <button class="show-all-cast-btn" th:text="${lang['show_all']}"></button>
+      <h2 th:text="Actors"></h2>
+      <div class="cast-grid">
+        <div class="cast-card" th:each="actor : ${movie.cast}">
+          <!-- checks if the actor image exists -->
+          <img th:src="${'https://image.tmdb.org/t/p/w185' + actor.profilePath}">
+          <p class="name" th:text="${actor.name}"></p>
+          <p class="character" th:text="${actor.character}"></p>
+        </div>
+      </div>
+      <!-- <button class="show-all-cast-btn" th:text="${lang['show_all']}"></button> -->
     </div>
-    -->
+
   </div>
 
   <!-- Include the footer fragment -->
