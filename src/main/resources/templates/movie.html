@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en"
       dir="ltr"
-      th:style="'background-image: url(' + ${'https://image.tmdb.org/t/p/original' + movie.posterPath} + ')'"
+      th:style="${movie.posterPath != null ? 'background-image: url(' + 'https://image.tmdb.org/t/p/original' + movie.posterPath + ')' : ''}"
       xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
@@ -22,7 +22,8 @@
   <div class="movie-container">
     <div class="movie-details">
 
-      <img th:src="${'https://image.tmdb.org/t/p/w300' + movie.posterPath}">
+      <img th:if="${movie.posterPath == null}" src="/images/default_image.jpg">
+      <img th:if="${movie.posterPath != null}" th:src="${'https://image.tmdb.org/t/p/w300' + movie.posterPath}">
 
       <div class="movie-overview">
         <h1 th:text="${movie.title}"></h1>
@@ -63,8 +64,8 @@
       <h2 th:text="Actors"></h2>
       <div class="cast-grid">
         <div class="cast-card" th:each="actor : ${movie.cast}">
-          <!-- checks if the actor image exists -->
-          <img th:src="${'https://image.tmdb.org/t/p/w185' + actor.profilePath}">
+          <img th:if="${actor.profilePath == null}" src="/images/default_image.jpg">
+          <img th:if="${actor.profilePath != null}" th:src="${'https://image.tmdb.org/t/p/w185' + actor.profilePath}">
           <p class="name" th:text="${actor.name}"></p>
           <p class="character" th:text="${actor.character}"></p>
         </div>

@@ -28,11 +28,11 @@ public class MovieDeserializer extends JsonDeserializer<Movie> {
         JsonNode node = p.readValueAsTree();
 
         movie.setId(node.get("id").asInt());
-        movie.setTitle(node.get("title").asText());
+        movie.setTitle(node.get("title").textValue());
         movie.setVoteAverage(node.get("vote_average").floatValue());
-        movie.setReleaseDate(node.get("release_date").asText());
-        movie.setPosterPath(node.get("poster_path").asText());
-        movie.setOverview(node.get("overview").asText());
+        movie.setReleaseDate(node.get("release_date").textValue());
+        movie.setPosterPath(node.get("poster_path").textValue());
+        movie.setOverview(node.get("overview").textValue());
 
         JsonNode genresNode = node.get("genres");
         if (genresNode != null) {

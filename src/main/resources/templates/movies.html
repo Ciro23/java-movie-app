@@ -44,7 +44,9 @@
     <div class="movie-grid">
         <a th:each="movie : ${movies.movies}" th:href="@{/movie/{id}(id=${movie.id})}" class="movie">
             <div>
-                <img th:src="${'https://image.tmdb.org/t/p/w200' + movie.posterPath}" alt="Movie Poster">
+                <img th:if="${movie.posterPath == null}" src="/images/default_image.jpg">
+                <img th:if="${movie.posterPath != null}" th:src="${'https://image.tmdb.org/t/p/w200' + movie.posterPath}"
+                     alt="Movie Poster">
                 <p class="title" th:text="${movie.title}"></p>
                 <span class="vote" th:text="${movie.voteAverage}"></span>
             </div>
