@@ -79,7 +79,7 @@ public class MovieDataSource implements MovieRepository {
         try {
             URL url = new URL(BASE_URL + "movie/" + movieId + "/credits");
             Cast cast = makeHttpCall(url, RealCast.class);
-            return cast.getPeople();
+            return new TreeSet<>(cast.getPeople());
         } catch (IOException e) {
             System.out.println(e);
             return Collections.emptySet();

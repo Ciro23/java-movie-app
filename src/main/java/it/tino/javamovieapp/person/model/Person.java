@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class Person {
+public class Person implements Comparable<Person> {
 
     @JsonProperty("adult")
     private boolean adult;
@@ -43,4 +43,9 @@ public class Person {
 
     @JsonProperty("order")
     private int order;
+
+    @Override
+    public int compareTo(Person that) {
+        return Integer.compare(this.order, that.order);
+    }
 }
