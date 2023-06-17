@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Page not found - Movie App</title>
+  <th:block th:insert="~{common :: common}"></th:block>
+
+  <!-- styles and other files -->
+  <link rel="stylesheet" th:href="@{/css/error.css}">
+</head>
+
+<body>
+  <div th:replace="~{navbar :: navbar}"></div>
+
+  <p>Page not found</p>
+
+  <div th:replace="~{footer :: footer}"></div>
+</body>
+</html>
