@@ -33,11 +33,11 @@
     </span>
 
     <h2 class="total-results" th:unless="${filter != null}">
-        <span th:if="${movies.movies.size() == 1}">There is</span>
-        <span th:if="${movies.movies.size() != 1}">There are</span>
-        <span th:text="${movies.movies.size()}"></span>
-        <span th:if="${movies.movies.size() == 1}">result for</span>
-        <span th:if="${movies.movies.size() != 1}">results for</span>
+        <span th:if="${movies.totalResults == 1}">There is</span>
+        <span th:if="${movies.totalResults != 1}">There are</span>
+        <span th:text="${movies.totalResults}"></span>
+        <span th:if="${movies.totalResults == 1}">result for</span>
+        <span th:if="${movies.totalResults != 1}">results for</span>
         <span th:text="'&quot;' + ${query} + '&quot;'" th:remove="tag"></span>
     </h2>
 

@@ -19,6 +19,9 @@ public class MoviesCollection {
     @JsonProperty("total_pages")
     int totalPages = 1;
 
+    @JsonProperty("total_results")
+    int totalResults = 0;
+
     @JsonProperty("results")
     Collection<Movie> movies = new ArrayList<>();
 }
