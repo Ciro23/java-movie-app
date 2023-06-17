@@ -1,6 +1,8 @@
 package it.tino.javamovieapp.movie.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import it.tino.javamovieapp.person.model.Cast;
+import it.tino.javamovieapp.person.model.Person;
 import lombok.*;
 
 import java.util.Locale;
@@ -34,11 +36,17 @@ public class Movie {
     @JsonProperty("genres")
     private Set<Genre> genres;
 
+    private Cast cast;
+
     @JsonProperty("budget")
     private int budget;
 
     @JsonProperty("runtime")
     private int runtime;
+
+    public Set<Person> getCast() {
+        return cast.getPeople();
+    }
 
     /**
      * Budget may contain many numbers, so dots should

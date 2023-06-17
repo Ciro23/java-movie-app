@@ -3,9 +3,11 @@ package it.tino.javamovieapp.movie.repository;
 import it.tino.javamovieapp.movie.model.Movie;
 import it.tino.javamovieapp.movie.model.MovieSorting;
 import it.tino.javamovieapp.movie.model.MoviesCollection;
+import it.tino.javamovieapp.person.model.Person;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface MovieRepository {
@@ -27,4 +29,6 @@ public interface MovieRepository {
     }
 
     Optional<Movie> getMovieDetails(int id);
+
+    Set<Person> getCredits(int movieId);
 }
