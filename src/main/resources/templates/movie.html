@@ -63,7 +63,7 @@
     <div class="cast">
       <h2 th:text="Actors"></h2>
       <div class="cast-grid">
-        <div class="cast-card" th:each="actor : ${movie.cast}">
+        <div class="cast-card" th:each="actor : ${movie.cast}" th:if="${actor.knownForDepartment == 'Acting'}">
           <img th:if="${actor.profilePath == null}" src="/images/default_image.jpg">
           <img th:if="${actor.profilePath != null}" th:src="${'https://image.tmdb.org/t/p/w185' + actor.profilePath}">
           <p class="name" th:text="${actor.name}"></p>
