@@ -1,7 +1,6 @@
 package it.tino.javamovieapp.movie.repository;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.Module;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import it.tino.javamovieapp.movie.model.Movie;
@@ -27,19 +26,14 @@ public class MovieDataSource implements MovieRepository {
 
     private final ConnectionProvider connectionProvider;
 
-    private final String BASE_URL = "https://api.themoviedb.org/3/";
-
     @Value("${tmdb.api-key}")
     private String apiKey;
 
     @Override
     public MoviesCollection findAll(MovieSorting sorting, int page) {
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Movie.class, new MovieDeserializer(this));
-
         try {
-            URL url = new URL(BASE_URL + "movie/" + sorting.getKey() + "?page=" + page);
-            return makeHttpCall(url, MoviesCollection.class, Optional.of(module));
+            String path = "movie/" + sorting.getKey() + "?page=" + page;
+            return makeHttpCall(path, MoviesCollection.class);
         } catch (IOException e) {
             System.out.println(e);
             return new MoviesCollection();
@@ -48,12 +42,9 @@ public class MovieDataSource implements MovieRepository {
 
     @Override
     public MoviesCollection search(String query, int page) {
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Movie.class, new MovieDeserializer(this));
-
         try {
-            URL url = new URL(BASE_URL + "search/movie?query=" + query + "&page=" + page);
-            return makeHttpCall(url, MoviesCollection.class, Optional.of(module));
+            String path = "search/movie?query=" + query + "&page=" + page;
+            return makeHttpCall(path, MoviesCollection.class);
         } catch (IOException e) {
             System.out.println(e);
             return new MoviesCollection();
@@ -62,12 +53,9 @@ public class MovieDataSource implements MovieRepository {
 
     @Override
     public Optional<Movie> getMovieDetails(int id) {
-        SimpleModule module = new SimpleModule();
-        module.addDeserializer(Movie.class, new MovieDeserializer(this));
-
         try {
-            URL url = new URL(BASE_URL + "movie/" + id);
-            return Optional.ofNullable(makeHttpCall(url, Movie.class, Optional.of(module)));
+            String path = "movie/" + id;
+            return Optional.ofNullable(makeHttpCall(path, Movie.class));
         } catch (IOException e) {
             System.out.println(e);
             return Optional.empty();
@@ -77,8 +65,8 @@ public class MovieDataSource implements MovieRepository {
     @Override
     public Set<Person> getCredits(int movieId) {
         try {
-            URL url = new URL(BASE_URL + "movie/" + movieId + "/credits");
-            Cast cast = makeHttpCall(url, RealCast.class);
+            String path = "movie/" + movieId + "/credits";
+            Cast cast = makeHttpCall(path, RealCast.class);
             return new TreeSet<>(cast.getPeople());
         } catch (IOException e) {
             System.out.println(e);
@@ -86,7 +74,10 @@ public class MovieDataSource implements MovieRepository {
         }
     }
 
-    private <T> T makeHttpCall(URL url, Class<T> returnType, Optional<Module> module) throws IOException {
+    private <T> T makeHttpCall(String path, Class<T> returnType) throws IOException {
+        String BASE_URL = "https://api.themoviedb.org/3/";
+        URL url = new URL(BASE_URL + path);
+
         HttpURLConnection connection = (HttpURLConnection) connectionProvider.getConnection(url);
         connection.addRequestProperty("Authorization", "Bearer " + apiKey);
 
@@ -95,12 +86,10 @@ public class MovieDataSource implements MovieRepository {
         ObjectMapper objectMapper = new ObjectMapper()
                 .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
 
-        module.ifPresent(objectMapper::registerModule);
+        SimpleModule module = new SimpleModule();
+        module.addDeserializer(Movie.class, new MovieDeserializer(this));
+        objectMapper.registerModule(module);
 
         return objectMapper.readValue(responseBody, returnType);
-    }
-
-    private <T> T makeHttpCall(URL url, Class<T> returnType) throws IOException {
-        return makeHttpCall(url, returnType, Optional.empty());
     }
 }
