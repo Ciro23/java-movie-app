@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - Movie App</title>
+
+  <th:block th:insert="~{common :: common}"></th:block>
+
+  <link rel="stylesheet" th:href="@{/css/login-signup.css}">
+</head>
+
+<body>
+<div th:replace="~{navbar :: navbar}"></div>
+
+<div class="login-signup-container">
+  <div class="form-container" id="login">
+    <h1>Login</h1>
+    <p class="error" th:text=""></p>
+    <form action="/login/action" method="POST">
+      <input type="text" name="username" placeholder="Username" th:value="">
+      <input type="password" name="password" placeholder="Password">
+      <input type="submit" value="Login">
+    </form>
+  </div>
+  <a href="/signup">Signup</a>
+</div>
+
+<div th:replace="~{footer :: footer}"></div>
+
+</body>
+</html>
