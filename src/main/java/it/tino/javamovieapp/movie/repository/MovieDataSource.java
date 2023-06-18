@@ -42,8 +42,12 @@ public class MovieDataSource implements MovieRepository {
 
     @Override
     public MoviesCollection search(String query, int page) {
+        // Spaces in urls must be replaced to make the request
+        // returns the correct response.
+        String escapedQuery = query.replace(" ", "%20");
+        
         try {
-            String path = "search/movie?query=" + query + "&page=" + page;
+            String path = "search/movie?query=" + escapedQuery + "&page=" + page;
             return makeHttpCall(path, MoviesCollection.class);
         } catch (IOException e) {
             System.out.println(e);
